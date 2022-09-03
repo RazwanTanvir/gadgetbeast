@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http:/ /www.w3.org/1999/xhtml"
+      xmlns:th="http:/ /www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Design Beast</title>
+  <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+<body>
+<h1>Design your Gadget!</h1>
+<img width="200" height="200" th:src="@{/images/wallpaper.png}"/>
+
+<form method="POST" th:object="${gadget}">
+  <div class="grid">
+
+    <div class="ingredient-group" id="ram">
+      <h3>Designate your RAM:</h3>
+      <div th:each="specification : ${ram}">
+        <input th:field="*{specifications}" type="checkbox" th:value="${specification.id}"/>
+        <span th:text="${specification.brand} + ' - ' + ${specification.size}">SPECIFICATION</span><br/>
+      </div>
+    </div>
+
+
+    <div class="ingredient-group" id="hdd">
+      <h3>Pick your HDD:</h3>
+      <div th:each="specification : ${hdd}">
+        <input th:field="*{specifications}" type="checkbox" th:value="${specification.id}"/>
+        <span th:text="${specification.brand} + ' - ' + ${specification.size}">SPECIFICATION</span><br/>
+      </div>
+    </div>
+
+    <div class="ingredient-group" id="display">
+      <h3>Pick your Display:</h3>
+      <div th:each="specification : ${display}">
+        <input th:field="*{specifications}" type="checkbox" th:value="${specification.id}"/>
+        <span th:text="${specification.brand} + ' - ' + ${specification.size}">SPECIFICATION</span><br/>
+      </div>
+    </div>
+
+    <div class="ingredient-group" id="processor">
+      <h3>Pick your Processor:</h3>
+      <div th:each="specification : ${processor}">
+        <input th:field="*{specifications}" type="checkbox" th:value="${specification.id}"/>
+        <span th:text="${specification.brand} + ' - ' + ${specification.size}">SPECIFICATION</span><br/>
+      </div>
+    </div>
+  </div>
+  <div>
+    <h3>Name your spec:</h3>
+    <input type="text" th:field="*{name}"/>
+    <br/>
+    <button>Submit Your PC Build</button>
+  </div>
+</form>
+</body>
+</html>
