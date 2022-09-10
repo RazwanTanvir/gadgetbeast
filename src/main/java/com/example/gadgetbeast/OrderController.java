@@ -19,6 +19,13 @@ import javax.validation.Valid;
 @SessionAttributes("gadgetOrder")
 
 public class OrderController {
+
+    private OrderRepository orderRepository;
+
+    public OrderController(OrderRepository orderRepo) {
+        this.orderRepository = orderRepo;
+    }
+
     @GetMapping("/current")
     public String orderForm() {
         return "view/orderForm";
@@ -33,7 +40,10 @@ public class OrderController {
         }
 
         log.info("Order submitted: {}", gadgetOrder);
+
+        orderRepository.save(gadgetOrder);
         sessionStatus.setComplete();
+
         return "redirect:/";
     }
 }

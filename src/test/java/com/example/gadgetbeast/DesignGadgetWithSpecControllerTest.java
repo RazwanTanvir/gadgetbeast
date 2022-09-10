@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import com.example.gadgetbeast.Specification.Type;
@@ -23,11 +24,22 @@ public class DesignGadgetWithSpecControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+
     private List<Specification> ingredients;
+
+    private Gadget design;
+
+    @MockBean
+    private ISpecificationRepository ingredientRepository;
+
+    @MockBean
+    private OrderRepository orderRepository;
+
+    private List<Specification> specifications;
 
     @BeforeEach
     public void setup() {
-        ingredients = Arrays.asList(
+        specifications = Arrays.asList(
                 new Specification("1", "ASUS", "16 GB", Type.RAM),
                 new Specification("2", "HP", "16 GB", Type.RAM),
                 new Specification("3","ASUS", "8 GB", Type.RAM),
@@ -50,10 +62,10 @@ public class DesignGadgetWithSpecControllerTest {
         mockMvc.perform(get("/design"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("view/design"))
-                .andExpect(model().attribute("ram", ingredients.subList(0, 3)))
-                .andExpect(model().attribute("hdd", ingredients.subList(3, 7)))
-                .andExpect(model().attribute("display", ingredients.subList(7, 10)))
-                .andExpect(model().attribute("processor", ingredients.subList(10, 13)));
+                .andExpect(model().attribute("ram", specifications.subList(0, 3)))
+                .andExpect(model().attribute("hdd", specifications.subList(3, 7)))
+                .andExpect(model().attribute("display", specifications.subList(7, 10)))
+                .andExpect(model().attribute("processor", specifications.subList(10, 13)));
     }
 
     @Test

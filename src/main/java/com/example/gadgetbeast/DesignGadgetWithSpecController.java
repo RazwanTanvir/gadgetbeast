@@ -1,19 +1,18 @@
 package com.example.gadgetbeast;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.extern.slf4j.Slf4j;
-import com.example.gadgetbeast.Specification;
 import com.example.gadgetbeast.Specification.Type;
-import com.example.gadgetbeast.Gadget;
 
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,11 +21,25 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/design")
 @SessionAttributes("gadgetOrder")
-//DesignTacoController
 public class DesignGadgetWithSpecController {
+
+    private final ISpecificationRepository specificationRepository;
+
+    @Autowired
+    public DesignGadgetWithSpecController(ISpecificationRepository specificationRepository) {
+        this.specificationRepository = specificationRepository;
+    }
+
     @ModelAttribute
     public void addSpecToModel (Model model) {
-        List<Specification> specifications = Arrays.asList(
+
+        List<Specification> specifications = new ArrayList<>();
+
+
+        List<Specification> finalSpecifications = specifications;
+        specificationRepository.findAll().forEach(i-> finalSpecifications.add(i));
+
+        specifications = Arrays.asList(
                 new Specification("1", "ASUS", "16 GB", Specification.Type.RAM),
                 new Specification("2", "HP", "16 GB", Specification.Type.RAM),
                 new Specification("3", "ASUS", "8 GB", Specification.Type.RAM),
@@ -44,7 +57,8 @@ public class DesignGadgetWithSpecController {
 
         Type[] types = Specification.Type.values();
         for (Type type: types) {
-            model.addAttribute(type.toString().toLowerCase(), filterByType(specifications, type));
+            model.addAttribute(type.toString().toLowerCase(),
+                    filterByType(specifications, type));
         }
     }
 
@@ -79,7 +93,7 @@ public class DesignGadgetWithSpecController {
             return "view/design";
         }
 
-        gadgetOrder.addSpecification(gadget);
+        gadgetOrder.addGadget(gadget);
         log.info("Processing gadget: {}", gadget);
         return "redirect:/orders/current";
     }

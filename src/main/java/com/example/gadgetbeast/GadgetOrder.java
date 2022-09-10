@@ -1,16 +1,28 @@
 package com.example.gadgetbeast;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import lombok.Data;
 
+import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
 @Data
-public class GadgetOrder {
+@Entity
+public class GadgetOrder implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    private Date placedAt =  new Date();
 
     @NotBlank(message="Delivery name is required")
     private String deliveryName;
@@ -37,13 +49,10 @@ public class GadgetOrder {
     @Digits(integer=3, fraction=0, message="Invalid CVV")
     private String ccCVV;
 
-//    private List<Gadget> specifications = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Gadget> gadgets = new ArrayList<>();
 
-//    public void addSpecification(Gadget gadget) {
-//        this.specifications.add(gadget);
-//    }
-    public void addSpecification(Gadget gadget) {
+    public void addGadget(Gadget gadget) {
         this.gadgets.add(gadget);
     }
 }
