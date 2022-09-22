@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Date;
 import java.util.List;
 
-public interface OrderRepository extends CrudRepository<GadgetOrder, Long> {
+public interface OrderRepository extends CrudRepository<GadgetOrder, String> {
 
 //    List<GadgetOrder> findByDeliveryZip(String deliveryZip);
 

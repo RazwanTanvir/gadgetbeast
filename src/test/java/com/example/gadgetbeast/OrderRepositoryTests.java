@@ -2,13 +2,14 @@ package com.example.gadgetbeast;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+@DataMongoTest
 public class OrderRepositoryTests {
 
     @Autowired
@@ -46,6 +47,7 @@ public class OrderRepositoryTests {
 
             assertThat(saveOrder.getId()).isNotNull();
 
+//            GadgetOrder fetchedOrder = orderRepository.findById(saveOrder.getId()).get();
             GadgetOrder fetchedOrder = orderRepository.findById(saveOrder.getId()).get();
             assertThat(fetchedOrder.getDeliveryName()).isEqualTo("Test McTest");
             assertThat(fetchedOrder.getDeliveryStreet()).isEqualTo("1234 Test Lane");

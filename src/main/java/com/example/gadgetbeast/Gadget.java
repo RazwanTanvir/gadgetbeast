@@ -10,12 +10,11 @@ import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
 
 @Data
-@Entity
 public class Gadget {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private Long id;
 
     private Date createdAt = new Date();
 
