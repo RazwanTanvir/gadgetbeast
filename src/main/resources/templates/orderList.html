@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>GadgetBeast</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+
+<body>
+
+<h1>Your orders</h1>
+
+<ul>
+    <li th:each="order : ${orders}">
+        <span th:text="${order.placedAt}">DATE</span> -
+        <span th:text="${order.deliveryName}">NAME</span>
+        <ul>
+            <li th:each="gadget : ${order.gadgets}">
+                <span th:text="${gadget.name}"></span> :
+                <span th:each="specification : ${gadget.specifications}">
+              <span th:text="${specification.brand}">SPECIFICATION</span>,
+            </span>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+</body>
+
+</html>

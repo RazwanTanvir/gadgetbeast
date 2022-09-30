@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http:/ /www.w3.org/1999/xhtml"
- xmlns:th="http:/ /www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
  <head>
  <title>GadgetBeast</title>
  </head>
@@ -10,6 +10,11 @@
  <img th:src="@{/images/wallpaper.png}" height="200px" width="200px"/>
 
  <a th:href="@{/design}" id="design">Design a Gadget</a>
+
+ <form method="POST" th:action="@{/logout}">
+  <input type="submit" value="Logout"/>
+ </form>
+
  </body>
 </html>
 

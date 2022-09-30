@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http:/ /www.w3.org/1999/xhtml"
-      xmlns:th="http:/ /www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>Gadget Beast</title>
@@ -16,7 +16,7 @@
     <h3>Your gadget in this order:</h3>
     <a th:href="@{/design}" id="another">Select another spec</a> <br/>
 
-    <h3></h3>
+<!--    <h3></h3>-->
 <!--    <ul>-->
 <!--        <li th:each="gadget : ${gadgetOrder.specifications}">-->
 <!--            <span th:text="${gadget.name}}">Gadget Name</span>-->
@@ -88,6 +88,10 @@
 
 
     <input type="submit" value="Submit Order"/>
+</form>
+
+<form method="POST" th:action="@{/logout}">
+    <input type="submit" value="Logout"/>
 </form>
 </body>
 

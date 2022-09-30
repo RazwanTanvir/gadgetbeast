@@ -1,4 +1,60 @@
+
 spring:
+  discount:
+    codes:
+      abcdef: 10
+
+---
+spring:
+  profiles:
+      - dev
+  h2:
+    console.enabled: true
+
   datasource:
-    generate-unique-name: false
-    name: gadgetbeast
+    url: jdbc:h2:mem:dev
+    username: sa
+    password:
+
+gadget:
+  orders:
+    page-size: 5
+
+  logging:
+    level:
+      gadgets: WARN
+
+  server:
+    port: 8080
+
+---
+spring:
+  profiles:
+    - prod
+
+  h2:
+    console.enabled: true
+
+  datasource:
+    url: jdbc:h2:mem:prod
+    username: sa
+    password:
+
+gadget:
+  orders:
+    page-size: 10
+
+server:
+  port: 9090
+
+logging:
+  file:
+    path: logs
+    name: logs/gadgetbeast.log
+  level:
+    root: WARN
+    org:
+      springframework:
+        security: DEBUG
+  pattern:
+    console: OFF

@@ -2,11 +2,8 @@ package com.example.gadgetbeast;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -16,15 +13,20 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-@Document
+@Entity
+@Table(name = "Gadget_Order")
 public class GadgetOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    private Date placedAt =  new Date();
+    private Date placedAt;
+
+    @ManyToOne
+    private User user;
 
     @NotBlank(message="Delivery name is required")
     private String deliveryName;
@@ -51,10 +53,14 @@ public class GadgetOrder implements Serializable {
     @Digits(integer=3, fraction=0, message="Invalid CVV")
     private String ccCVV;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Gadget.class)
     private List<Gadget> gadgets = new ArrayList<>();
 
     public void addGadget(Gadget gadget) {
         this.gadgets.add(gadget);
+    }
+    @PrePersist
+    void placedAt() {
+        this.placedAt = new Date();
     }
 }

@@ -1,8 +1,10 @@
 package com.example.gadgetbeast;
 
+import com.example.gadgetbeast.data.ISpecificationRepository;
+import com.example.gadgetbeast.web.SpecificationByIdConverter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Optional;

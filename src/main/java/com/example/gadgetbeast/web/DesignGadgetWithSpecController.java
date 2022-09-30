@@ -1,5 +1,12 @@
-package com.example.gadgetbeast;
+package com.example.gadgetbeast.web;
 
+import com.example.gadgetbeast.Gadget;
+import com.example.gadgetbeast.GadgetOrder;
+import com.example.gadgetbeast.Specification;
+import com.example.gadgetbeast.User;
+import com.example.gadgetbeast.data.GadgetRepository;
+import com.example.gadgetbeast.data.ISpecificationRepository;
+import com.example.gadgetbeast.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +18,7 @@ import com.example.gadgetbeast.Specification.Type;
 
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,16 +33,24 @@ public class DesignGadgetWithSpecController {
 
     private final ISpecificationRepository specificationRepository;
 
+    private GadgetRepository gadgetRepo;
+
+    private UserRepository userRepo;
+
     @Autowired
-    public DesignGadgetWithSpecController(ISpecificationRepository specificationRepository) {
+    public DesignGadgetWithSpecController(
+            ISpecificationRepository specificationRepository,
+            GadgetRepository gadgetRepo,
+            UserRepository userRepo) {
         this.specificationRepository = specificationRepository;
+        this.gadgetRepo = gadgetRepo;
+        this.userRepo = userRepo;
     }
 
     @ModelAttribute
     public void addSpecToModel (Model model) {
 
         List<Specification> specifications = new ArrayList<>();
-
 
         List<Specification> finalSpecifications = specifications;
         specificationRepository.findAll().forEach(i-> finalSpecifications.add(i));
@@ -72,9 +88,30 @@ public class DesignGadgetWithSpecController {
         return new Gadget();
     }
 
+    @ModelAttribute(name = "user")
+    public User user(Principal principal) {
+        String username = principal.getName();
+        User user = userRepo.findByUsername(username);
+        return user;
+    }
+
     @GetMapping
     public String showDesignForm() {
-        return "view/design";
+        return "design";
+    }
+
+    @PostMapping
+    public String processGadget(@Valid Gadget gadget,
+                              @ModelAttribute GadgetOrder gadgetOrder, Errors errors) {
+
+        if(errors.hasErrors()) {
+            return "design";
+        }
+
+        Gadget saved = gadgetRepo.save(gadget);
+        gadgetOrder.addGadget(gadget);
+        log.info("Processing gadget: {}", gadget);
+        return "redirect:/orders/current";
     }
 
     private Iterable<Specification> filterByType (
@@ -83,18 +120,5 @@ public class DesignGadgetWithSpecController {
                 .stream()
                 .filter(x -> x.getType().equals(type))
                 .collect(Collectors.toList());
-    }
-
-    @PostMapping
-    public String processGadget(@Valid Gadget gadget,
-                              @ModelAttribute GadgetOrder gadgetOrder, Errors errors) {
-
-        if(errors.hasErrors()) {
-            return "view/design";
-        }
-
-        gadgetOrder.addGadget(gadget);
-        log.info("Processing gadget: {}", gadget);
-        return "redirect:/orders/current";
     }
 }

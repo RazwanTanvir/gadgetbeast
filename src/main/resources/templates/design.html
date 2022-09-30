@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html xmlns="http:/ /www.w3.org/1999/xhtml"
-      xmlns:th="http:/ /www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Design Beast</title>
-  <link rel="stylesheet" th:href="@{style/styles.css}" />
+  <link rel="stylesheet" th:href="@{/style/styles.css}" />
 </head>
 <body>
 <h1>Design your Gadget!</h1>
 <img width="200" height="200" th:src="@{/images/wallpaper.png}"/>
 
-<form method="POST" th:object="${gadget}">
+<form method="POST" th:object="${gadget}" th:action="@{/design}" id="gadgetForm">
   <div class="grid">
 
     <div class="ingredient-group" id="ram">
@@ -54,5 +54,11 @@
     <button>Submit Your PC Build</button>
   </div>
 </form>
+
+<form method="POST" th:action="@{/logout}">
+  <input type="submit" value="Logout"/>
+</form>
+
+
 </body>
 </html>

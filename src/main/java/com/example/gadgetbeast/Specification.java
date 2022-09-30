@@ -1,22 +1,22 @@
 package com.example.gadgetbeast;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.*;
+
+import javax.persistence.Id;
+//import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.persistence.Entity;
 
 @Data
-@AllArgsConstructor
+@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
-@Document(collection = "specifications")
+@Entity
 public class Specification {
     @Id
-    private String id;
-    private String brand;
-    private String size;
-    private Type type;
+    private final String id;
+    private final String brand;
+    private final String size;
+    private final Type type;
 
     public enum Type {
         RAM, HDD, DISPLAY, PROCESSOR
